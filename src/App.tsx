@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
-import ButtonDec from './components/ButtonDec';
-import ButtonInc from "./components/ButtonInc";
-import ButtonRes from './components/ButtonRes';
 import Display from "./components/Display";
+import Button from "./components/Button";
 
 function App() {
 
@@ -26,17 +24,17 @@ function App() {
             <div className='wrapper'>
                 <Display value={value}/>
                 <div className='buttons'>
-                    <ButtonInc
-                        increaseCounterValue={increaseCounterValue}
-                        title='+'
+                    <Button
+                        title={'+'}
+                        onClickChangeValue={increaseCounterValue}
                         value={value}/>
-                    <ButtonDec
-                        decreaseCounterValue={decreaseCounterValue}
-                        title='-'
+                    <Button
+                        title={'-'}
+                        onClickChangeValue={decreaseCounterValue}
                         value={value}/>
-                    <ButtonRes
-                        resetCounterValue={resetCounterValue}
-                        title='res'
+                    <Button
+                        title={'res'}
+                        onClickChangeValue={resetCounterValue}
                         value={value}/>
                 </div>
             </div>
