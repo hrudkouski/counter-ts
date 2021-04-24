@@ -1,0 +1,13 @@
+.display {
+    font-size: 140px;
+    padding: 0 0 0 160px;
+    margin: 25px;
+    border: #eadddd solid 2px;
+    background-color: #2B5278;
+    border-radius: 35px;
+}
+
+.error {
+    color: #E92539;
+    font-weight: bold;
+}
