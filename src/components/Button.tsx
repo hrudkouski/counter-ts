@@ -4,20 +4,18 @@ import s from './Button.module.css'
 type ButtonPropsType = {
     title: string
     onClickChangeValue: () => void
-    value: number
+    disabled?: boolean
 }
 
 function Button(props: ButtonPropsType) {
 
     const buttonClickHandler = () => props.onClickChangeValue();
-    const disabledButtonInc = props.title === '+' && props.value === 5;
-    const disabledButtonDec = props.title === '-' && props.value === 0;
 
     return (
         <div>
             <span>
                 <button
-                    disabled={disabledButtonInc || disabledButtonDec}
+                    disabled={props.disabled}
                     onClick={buttonClickHandler}
                     className={s.btn}>{props.title}
                 </button>
