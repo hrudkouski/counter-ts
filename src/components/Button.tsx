@@ -7,22 +7,13 @@ type ButtonPropsType = {
     disabled?: boolean
 }
 
-function Button(props: ButtonPropsType) {
+export function Button({disabled, onClickChangeValue, ...props}: ButtonPropsType) {
 
-    const buttonClickHandler = () => props.onClickChangeValue();
+    const buttonClickHandler = () => onClickChangeValue();
 
-    return (
-        <div>
-            <span>
-                <button
-                    disabled={props.disabled}
-                    onClick={buttonClickHandler}
-                    className={s.btn}>{props.title}
-                </button>
-            </span>
-
-        </div>
-    );
+    return <button
+        disabled={disabled}
+        onClick={buttonClickHandler}
+        className={s.btn}>{props.title}
+    </button>
 }
-
-export default Button;

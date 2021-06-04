@@ -2,11 +2,11 @@
     width: 100px;
     height: 100px;
     border-radius: 100%;
-    color: black;
-    font-size: 60px;
-    font-weight: bold;
+    color: white;
+    font-size: 75px;
     cursor: pointer;
     background-color: #2B5278;
+    font-family: 'Odibee Sans', cursive;
 }
 
 .btn:disabled {

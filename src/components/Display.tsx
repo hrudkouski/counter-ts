@@ -3,17 +3,19 @@ import s from './Display.module.css'
 
 type DisplayPropsType = {
     value: number
+    errorValue: number
+    errorDisplay: boolean
 }
 
-function Display(props: DisplayPropsType) {
+export function Display(props: DisplayPropsType) {
 
-    const errorClass = props.value === 5 ? `${s.error}` : '';
+    const errorClass = props.value === props.errorValue ? `${s.errorValue}` : '';
 
     return (
         <div className={`${s.display} ${errorClass}`}>
-            {props.value}
+            {props.errorDisplay
+                ? <div className={s.errorText}>Incorrect value!</div>
+                : <div className={s.numberDisplay}>{props.value}</div>}
         </div>
     );
 }
-
-export default Display;
