@@ -1,3 +1,4 @@
+/*App CSS style*/
 .app {
     display: flex;
     flex-wrap: wrap;
@@ -21,18 +22,62 @@
     justify-content: space-around;
 }
 
-/*Local Start*/
+/*Button CSS style*/
+.btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    color: white;
+    font-size: 75px;
+    cursor: pointer;
+    background-color: #2B5278;
+    font-family: 'Odibee Sans', cursive;
+}
 
-.inputDisplay {
+.btn:disabled {
+    cursor: not-allowed;
+    background-color: #E92539;
+    opacity: 0.4;
+}
+
+/*Display CSS style*/
+.display {
     margin: 25px;
     min-height: 300px;
     border: #eadddd solid 2px;
     background-color: #145B31;
     border-radius: 25px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    color: #020202;
+}
+
+.errorValue {
+    color: #E92539;
+    font-weight: bold;
+}
+
+.errorText {
+    color: #E92539;
+    font-size: 93px;
+    padding: 5px;
+    font-weight: bold;
     align-items: center;
+    display: flex;
+}
+
+.numberDisplay {
+    display: flex;
+    justify-content: center;
+    font-size: 250px;
+    padding: 10px;
+}
+
+/*SettingsDisplay CSS style*/
+.settingsDisplay {
+    flex-direction: column;
+    align-items: center;
+    color: white;
 }
 
 .inputLocal:focus {
@@ -44,21 +89,26 @@
     background: #2B5278;
     outline: none;
     opacity: 0.5;
-    width: 200px;
-    height: 50px;
+    width: 150px;
+    height: 70px;
     color: #020202;
     font-size: 60px;
     margin: 15px;
-    border-radius: 5px;
-    border: 2px solid #041704;
+    border-radius: 15px;
+    border: 3px solid #041704;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .inputTitle {
-    font-size: 60px;
+    font-size: 70px;
 }
 
-/*!* Для Chrome *!*/
+.inputLocalError {
+    border: #020202 4px solid;
+    background: #E92539;
+}
+
 /*input[type=number]::-webkit-inner-spin-button,*/
 /*input[type=number]::-webkit-outer-spin-button {*/
 /*    -webkit-appearance: none;*/
@@ -66,5 +116,3 @@
 /*    appearance: none;*/
 /*    margin: 0;*/
 /*}*/
-
-/*Local End*/
