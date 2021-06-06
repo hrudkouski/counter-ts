@@ -4,12 +4,26 @@ import {Display} from "./components/Display";
 import {Button} from "./components/Button";
 import {SettingsDisplay} from "./components/SettingsDisplay";
 
+export type ErrorType = {
+    errorCommon: boolean
+    errorMin: boolean
+    errorMax: boolean
+}
+
 function App() {
 
     const [value, setValue] = useState<number>(0);
-    const [min, setMin] = useState<number>(0)
-    const [max, setMax] = useState<number>(5)
-    const [error, setError] = useState<boolean>(false)
+    const [min, setMin] = useState<number>(2)
+    const [max, setMax] = useState<number>(10)
+    const [error, setError] = useState<ErrorType>({
+        errorCommon: false,
+        errorMin: false,
+        errorMax: false,
+    })
+    console.log('value - ' + value)
+    console.log('min - ' + min)
+    console.log('max - ' + max)
+    console.log(error)
 
     useEffect(() => {
         let valueAsString = localStorage.getItem('maxValue')
@@ -31,18 +45,60 @@ function App() {
         localStorage.setItem('maxValue', JSON.stringify(max))
         localStorage.setItem('minValue', JSON.stringify(min))
         setValue(min)
+        setError({
+            ...error,
+            errorCommon: true,
+        })
     }
 
     const changeMinValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
+        setError({
+            ...error,
+            errorCommon: false,
+        })
+
         let minValue = e.currentTarget.valueAsNumber;
+
+        console.log('changeMinValueHandler ' + minValue)
+
+        minValue < 0 || minValue >= max
+            ? setError({
+                ...error,
+                errorCommon: true,
+                errorMin: true,
+            })
+            : setError({
+                ...error,
+                errorCommon: false,
+                errorMin: false,
+            });
         setMin(minValue)
-        minValue < 0 || minValue >= max ? setError(true) : setError(false);
     }
 
     const changeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
+        setError({
+            ...error,
+            errorCommon: false,
+        })
+
         let maxValue = e.currentTarget.valueAsNumber;
+
+        console.log('changeMaxValueHandler ' + maxValue)
+
+        maxValue <= 0 || maxValue <= min
+            ? setError({
+                ...error,
+                errorCommon: true,
+                errorMax: true,
+            })
+            : setError({
+                ...error,
+                errorCommon: false,
+                errorMax: false,
+            })
         setMax(maxValue)
-        maxValue < 0 || maxValue <= min ? setError(true) : setError(false)
     }
 
     const increaseCounterValue = () => {
@@ -57,6 +113,10 @@ function App() {
         setValue(min);
     };
 
+    const disabledIncreaseButton = value === max || error.errorMin || error.errorMax;
+    const disabledDecreaseButton = value === min || error.errorMin || error.errorMax;
+    const displayErrorIncorrect = error.errorMin || error.errorMax
+
     return (
         <div className={s.app}>
             <div className={s.wrapper}>
@@ -65,44 +125,38 @@ function App() {
                         onChange={changeMaxValueHandler}
                         value={max}
                         title='Max Value:'
-                        errorDisplay={error}
-                    />
+                        errorDisplayMax={error.errorMax}/>
                     <SettingsDisplay
                         onChange={changeMinValueHandler}
                         value={min}
                         title='Min Value: '
-                        errorDisplay={error}
-                    />
+                        errorDisplayMin={error.errorMin}/>
                 </div>
                 <div className={s.buttons}>
                     <Button
                         title={'set'}
-                        disabled={error}
-                        onClickChangeValue={setSettings}
-                    />
+                        disabled={error.errorCommon}
+                        onClickChangeValue={setSettings}/>
                 </div>
             </div>
             <div className={s.wrapper}>
                 <Display
-                    errorDisplay={error}
+                    errorIncorrect={displayErrorIncorrect}
                     maxValue={max}
                     value={value}
-                />
+                    errorSet={error.errorCommon}/>
                 <div className={s.buttons}>
                     <Button
-                        disabled={value === max}
+                        disabled={disabledIncreaseButton}
                         title={'+'}
-                        onClickChangeValue={increaseCounterValue}
-                    />
+                        onClickChangeValue={increaseCounterValue}/>
                     <Button
-                        disabled={value === min}
+                        disabled={disabledDecreaseButton}
                         title={'-'}
-                        onClickChangeValue={decreaseCounterValue}
-                    />
+                        onClickChangeValue={decreaseCounterValue}/>
                     <Button
                         title={'res'}
-                        onClickChangeValue={resetCounterValue}
-                    />
+                        onClickChangeValue={resetCounterValue}/>
                 </div>
             </div>
         </div>
@@ -113,15 +167,8 @@ export default App;
 
 
 /*
+1. Общие вопросы по цсс, верстке. Сто улучшить и порефакторить
 
-1. Общие вопросы по верстке и CSS: что улучшить, что порефакторить.
-1. Как стилизовать стрелки в инпуте, с тайпом намбер?
-1. На сафари не гуд все(
-
-
-
-2. При ошибочном значении, подсвечивать именно тот инпут, где ошибка.
-2. При изменении значений макс и мин, кнопка СЕТ должна раздизейблится, а на дисплее, все кнопки задизейблить, и на дисплее написать "ентер валью и пресс сет"
-2. После установки настроек и нажатия на СЕТ, кнопка сет, должна задизейблится, а на дисплее начальное значение и все кнопки раздизейблены.
-2. Бага, при достижении макс значения, уменьшаем и дальше идет вверх опять,
+2.  Делаю 2 ошибки, далее мин выставляю в норм и макс выставляю в норм - висит ошибка, и горит красным инпут
+2. При перезагрузке 2 отрисовки почему-то
 */

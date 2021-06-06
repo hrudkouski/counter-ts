@@ -5,12 +5,15 @@ type SettingsDisplayPropsType = {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
     value: number
     title: string
-    errorDisplay: boolean
+    errorDisplayMax?: boolean
+    errorDisplayMin?: boolean
 }
 
 export function SettingsDisplay({value, title, onChange, ...props}: SettingsDisplayPropsType) {
 
-    const errorClass = props.errorDisplay ? `${s.inputLocalError}` : '';
+    const errorClass = props.errorDisplayMax || props.errorDisplayMin
+        ? `${s.inputLocalError}`
+        : '';
 
     return (
         <div>

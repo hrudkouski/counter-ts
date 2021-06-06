@@ -15,6 +15,7 @@
     height: 500px;
     border: #f3eaea solid 5px;
     border-radius: 7%;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
 .buttons {
@@ -32,6 +33,7 @@
     cursor: pointer;
     background-color: #2B5278;
     font-family: 'Odibee Sans', cursive;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
 .btn:disabled {
@@ -50,6 +52,7 @@
     display: flex;
     justify-content: center;
     color: #020202;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
 .errorValue {
@@ -59,11 +62,12 @@
 
 .errorText {
     color: #E92539;
-    font-size: 93px;
+    font-size: 84px;
     padding: 5px;
     font-weight: bold;
     align-items: center;
     display: flex;
+    text-align: center;
 }
 
 .numberDisplay {
@@ -83,6 +87,7 @@
 .inputLocal:focus {
     outline: none;
     opacity: 1;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
 .inputLocal {
@@ -98,6 +103,7 @@
     border: 3px solid #041704;
     text-align: center;
     box-sizing: border-box;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
 .inputTitle {
@@ -107,12 +113,10 @@
 .inputLocalError {
     border: #020202 4px solid;
     background: #E92539;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
-/*input[type=number]::-webkit-inner-spin-button,*/
-/*input[type=number]::-webkit-outer-spin-button {*/
-/*    -webkit-appearance: none;*/
-/*    -moz-appearance: none;*/
-/*    appearance: none;*/
-/*    margin: 0;*/
-/*}*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    margin: 0;
+}
