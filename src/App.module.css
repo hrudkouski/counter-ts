@@ -78,19 +78,19 @@
 }
 
 /*SettingsDisplay CSS style*/
-.settingsDisplay {
+.displaySettings {
     flex-direction: column;
     align-items: center;
     color: white;
 }
 
-.inputLocal:focus {
+.inputSettings:focus {
     outline: none;
     opacity: 1;
     box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
 }
 
-.inputLocal {
+.inputSettings {
     background: #2B5278;
     outline: none;
     opacity: 0.5;
@@ -110,13 +110,8 @@
     font-size: 70px;
 }
 
-.inputLocalError {
-    border: #020202 4px solid;
+.inputError {
+    border: #020202 5px solid;
     background: #E92539;
     box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    margin: 0;
 }

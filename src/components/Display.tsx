@@ -8,33 +8,25 @@ type DisplayPropsType = {
     errorSet: boolean
 }
 
-export function Display({errorSet, errorIncorrect, value, ...props}: DisplayPropsType) {
+export function Display(props: DisplayPropsType) {
 
-    const errorClass = value === props.maxValue ? `${s.errorValue}` : '';
+    const {errorSet, errorIncorrect, value, maxValue} = props;
+    const errorClass = value === maxValue ? `${s.errorValue}` : '';
+    const errorIncorrectValue = errorIncorrect ? s.errorText : s.numberDisplay;
 
     return (
         <>
-            {
-                errorIncorrect
-
-                    ? <div className={s.display}>
-                        {errorIncorrect
-                            ? <span className={errorIncorrect ? s.errorText : s.numberDisplay}>
-                                Incorrect value!
-                        </span>
-                            : <span className={`${errorSet ? s.errorText : s.numberDisplay} ${errorClass}`}>
-                                {value}
-                            </span>}
-                    </div>
-
-                    : <div className={s.display}>
-                        {!errorSet
-                            ? <span className={s.errorText}>
-                Enter values and press 'set'</span>
-                            : <span className={`${s.numberDisplay} ${errorClass}`}>
-            {value}</span>}
-                    </div>
+            {errorIncorrect
+                ? <div className={s.display}>
+                    <span className={errorIncorrectValue}>Incorrect value!</span>
+                </div>
+                : <div className={s.display}>
+                    {!errorSet
+                        ? <span className={s.errorText}>
+                                Enter values and press 'set'</span>
+                        : <span className={`${s.numberDisplay} ${errorClass}`}>{value}</span>}
+                </div>
             }
         </>
-    );
+    )
 }

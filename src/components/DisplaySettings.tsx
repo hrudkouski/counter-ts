@@ -9,17 +9,16 @@ type SettingsDisplayPropsType = {
     errorDisplayMin?: boolean
 }
 
-export function SettingsDisplay({value, title, onChange, ...props}: SettingsDisplayPropsType) {
+export function DisplaySettings(props: SettingsDisplayPropsType) {
 
-    const errorClass = props.errorDisplayMax || props.errorDisplayMin
-        ? `${s.inputLocalError}`
-        : '';
+    const {value, title, onChange, errorDisplayMax, errorDisplayMin} = props;
+    const errorClass = errorDisplayMax || errorDisplayMin ? `${s.inputError}` : '';
 
     return (
         <div>
             <span className={s.inputTitle}>{title}</span>
             <input
-                className={`${s.inputLocal} ${errorClass}`}
+                className={`${s.inputSettings} ${errorClass}`}
                 onChange={onChange}
                 value={value}
                 type="number"

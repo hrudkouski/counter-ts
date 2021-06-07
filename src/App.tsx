@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './App.module.css';
 import {Display} from "./components/Display";
 import {Button} from "./components/Button";
-import {SettingsDisplay} from "./components/SettingsDisplay";
+import {DisplaySettings} from "./components/DisplaySettings";
 
 export type ErrorType = {
     errorCommon: boolean
@@ -28,22 +28,12 @@ function App() {
             setMax(newMaxValueValue);
         }
 
-        const minValueAsString2 = localStorage.getItem('minValue')
-        if (minValueAsString2) {
-            const newMinValueValue = JSON.parse(minValueAsString2)
+        const minValueAsString = localStorage.getItem('minValue')
+        if (minValueAsString) {
+            const newMinValueValue = JSON.parse(minValueAsString)
             setMin(newMinValueValue);
         }
     }, [])
-
-    const setSettings = () => {
-        localStorage.setItem('maxValue', JSON.stringify(max))
-        localStorage.setItem('minValue', JSON.stringify(min))
-        setValue(min)
-        setError({
-            ...error,
-            errorCommon: true,
-        })
-    }
 
     const changeMinValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -68,7 +58,6 @@ function App() {
             });
         setMin(minValue)
     }
-
     const changeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
 
         setError({
@@ -93,14 +82,21 @@ function App() {
         setMax(maxValue)
     }
 
+    const setSettings = () => {
+        localStorage.setItem('maxValue', JSON.stringify(max))
+        localStorage.setItem('minValue', JSON.stringify(min))
+        setValue(min)
+        setError({
+            ...error,
+            errorCommon: true,
+        })
+    }
     const increaseCounterValue = () => {
         setValue(value === max ? value : value + 1);
     };
-
     const decreaseCounterValue = () => {
         setValue(value === min ? value : value - 1);
     };
-
     const resetCounterValue = () => {
         setValue(min);
     };
@@ -112,13 +108,13 @@ function App() {
     return (
         <div className={s.app}>
             <div className={s.wrapper}>
-                <div className={`${s.display} ${s.settingsDisplay}`}>
-                    <SettingsDisplay
+                <div className={`${s.display} ${s.displaySettings}`}>
+                    <DisplaySettings
                         onChange={changeMaxValueHandler}
                         value={max}
                         title='Max Value:'
                         errorDisplayMax={error.errorMax}/>
-                    <SettingsDisplay
+                    <DisplaySettings
                         onChange={changeMinValueHandler}
                         value={min}
                         title='Min Value: '
@@ -159,7 +155,7 @@ function App() {
 export default App;
 
 /*
-1. Общие вопросы по цсс, верстке. Сто улучшить и порефакторить
+1. Общие вопросы по цсс, верстке. Что улучшить и порефакторить
 
 2. Почему отрисовка происходит 2 раза при - это юзЭффект и локалсторадж?
     console.log('value ' + value)
