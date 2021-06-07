@@ -12,11 +12,6 @@ export function Display({errorSet, errorIncorrect, value, ...props}: DisplayProp
 
     const errorClass = value === props.maxValue ? `${s.errorValue}` : '';
 
-    console.log('DisplayValue - ' + value)
-    console.log('DisplayMaxValue - ' + props.maxValue)
-    console.log('DisplayErrorIncorrect - ' + errorIncorrect)
-    console.log('DisplayErrorSet - ' + errorSet)
-
     return (
         <>
             {

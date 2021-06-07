@@ -4,7 +4,7 @@ import s from '../App.module.css'
 type ButtonPropsType = {
     title: string
     onClickChangeValue: () => void
-    disabled?: boolean
+    disabled: boolean
 }
 
 export function Button({disabled, onClickChangeValue, ...props}: ButtonPropsType) {

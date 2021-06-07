@@ -13,31 +13,25 @@ export type ErrorType = {
 function App() {
 
     const [value, setValue] = useState<number>(0);
-    const [min, setMin] = useState<number>(2)
-    const [max, setMax] = useState<number>(10)
+    const [min, setMin] = useState<number>(0)
+    const [max, setMax] = useState<number>(3)
     const [error, setError] = useState<ErrorType>({
         errorCommon: false,
         errorMin: false,
         errorMax: false,
     })
-    console.log('value - ' + value)
-    console.log('min - ' + min)
-    console.log('max - ' + max)
-    console.log(error)
 
     useEffect(() => {
-        let valueAsString = localStorage.getItem('maxValue')
-        if (valueAsString) {
-            let newValue = JSON.parse(valueAsString)
-            setMax(newValue);
+        const maxValueAsString = localStorage.getItem('maxValue')
+        if (maxValueAsString) {
+            const newMaxValueValue = JSON.parse(maxValueAsString)
+            setMax(newMaxValueValue);
         }
-    }, [])
 
-    useEffect(() => {
-        let valueAsString = localStorage.getItem('minValue')
-        if (valueAsString) {
-            let newValue = JSON.parse(valueAsString)
-            setMin(newValue);
+        const minValueAsString2 = localStorage.getItem('minValue')
+        if (minValueAsString2) {
+            const newMinValueValue = JSON.parse(minValueAsString2)
+            setMin(newMinValueValue);
         }
     }, [])
 
@@ -60,8 +54,6 @@ function App() {
 
         let minValue = e.currentTarget.valueAsNumber;
 
-        console.log('changeMinValueHandler ' + minValue)
-
         minValue < 0 || minValue >= max
             ? setError({
                 ...error,
@@ -70,8 +62,9 @@ function App() {
             })
             : setError({
                 ...error,
-                errorCommon: false,
+                errorCommon: error.errorMax && max >= 0 ? false : error.errorMax,
                 errorMin: false,
+                errorMax: error.errorMax && max >= 0 ? false : error.errorMax,
             });
         setMin(minValue)
     }
@@ -85,8 +78,6 @@ function App() {
 
         let maxValue = e.currentTarget.valueAsNumber;
 
-        console.log('changeMaxValueHandler ' + maxValue)
-
         maxValue <= 0 || maxValue <= min
             ? setError({
                 ...error,
@@ -95,7 +86,8 @@ function App() {
             })
             : setError({
                 ...error,
-                errorCommon: false,
+                errorMin: error.errorMin && min >= 0 ? false : error.errorMin,
+                errorCommon: error.errorMin && min >= 0 ? false : error.errorMin,
                 errorMax: false,
             })
         setMax(maxValue)
@@ -147,14 +139,15 @@ function App() {
                     errorSet={error.errorCommon}/>
                 <div className={s.buttons}>
                     <Button
-                        disabled={disabledIncreaseButton}
+                        disabled={disabledIncreaseButton || !error.errorCommon}
                         title={'+'}
                         onClickChangeValue={increaseCounterValue}/>
                     <Button
-                        disabled={disabledDecreaseButton}
+                        disabled={disabledDecreaseButton || !error.errorCommon}
                         title={'-'}
                         onClickChangeValue={decreaseCounterValue}/>
                     <Button
+                        disabled={!error.errorCommon || displayErrorIncorrect}
                         title={'res'}
                         onClickChangeValue={resetCounterValue}/>
                 </div>
@@ -165,10 +158,12 @@ function App() {
 
 export default App;
 
-
 /*
 1. Общие вопросы по цсс, верстке. Сто улучшить и порефакторить
 
-2.  Делаю 2 ошибки, далее мин выставляю в норм и макс выставляю в норм - висит ошибка, и горит красным инпут
-2. При перезагрузке 2 отрисовки почему-то
+2. Почему отрисовка происходит 2 раза при - это юзЭффект и локалсторадж?
+    console.log('value ' + value)
+    console.log('min ' + min)
+    console.log('max ' + max)
+    console.log(error)
 */
