@@ -9,8 +9,8 @@ type SettingsDisplayPropsType = {
     errorDisplayMin?: boolean
 }
 
-export function DisplaySettings(props: SettingsDisplayPropsType) {
-
+export const DisplaySettings = React.memo((props: SettingsDisplayPropsType) => {
+    console.log('DisplaySettings');
     const {value, title, onChange, errorDisplayMax, errorDisplayMin} = props;
     const errorClass = errorDisplayMax || errorDisplayMin ? `${s.inputError}` : '';
 
@@ -25,7 +25,7 @@ export function DisplaySettings(props: SettingsDisplayPropsType) {
             />
         </div>
     );
-}
+})
 
 
 

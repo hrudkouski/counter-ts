@@ -8,8 +8,8 @@ type DisplayPropsType = {
     errorSet: boolean
 }
 
-export function Display(props: DisplayPropsType) {
-
+export const Display = React.memo((props: DisplayPropsType) => {
+    console.log('Display');
     const {errorSet, errorIncorrect, value, maxValue} = props;
     const errorClass = value === maxValue ? `${s.errorValue}` : '';
     const errorIncorrectValue = errorIncorrect ? s.errorText : s.numberDisplay;
@@ -29,4 +29,4 @@ export function Display(props: DisplayPropsType) {
             }
         </>
     )
-}
+})

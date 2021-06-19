@@ -1,109 +1,57 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import s from './App.module.css';
 import {Display} from "./components/Display";
 import {Button} from "./components/Button";
 import {DisplaySettings} from "./components/DisplaySettings";
-
-export type ErrorType = {
-    errorCommon: boolean
-    errorMin: boolean
-    errorMax: boolean
-}
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./redux/store";
+import {
+    changeMaxValueAC, changeMinValueAC,
+    decreaseCounterValueAC, ErrorType,
+    increaseCounterValueAC,
+    resetCounterValueAC, setErrorCommonAC,
+    setSettingsAC
+} from "./redux/counter-reducer";
 
 function App() {
+    console.log('App');
+    const value = useSelector<AppRootStateType, number>(state => state.counter.value);
+    const min = useSelector<AppRootStateType, number>(state => state.counter.min);
+    const max = useSelector<AppRootStateType, number>(state => state.counter.max);
+    const error = useSelector<AppRootStateType, ErrorType>(state => state.counter.error);
+    const dispatch = useDispatch();
 
-    const [value, setValue] = useState<number>(0);
-    const [min, setMin] = useState<number>(0)
-    const [max, setMax] = useState<number>(3)
-    const [error, setError] = useState<ErrorType>({
-        errorCommon: false,
-        errorMin: false,
-        errorMax: false,
-    })
+    const changeMinValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        const minValue = e.currentTarget.valueAsNumber;
+        dispatch(setErrorCommonAC());
+        dispatch(changeMinValueAC(minValue))
+    }, [dispatch])
 
-    useEffect(() => {
-        const maxValueAsString = localStorage.getItem('maxValue')
-        if (maxValueAsString) {
-            const newMaxValueValue = JSON.parse(maxValueAsString)
-            setMax(newMaxValueValue);
-        }
+    const changeMaxValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        const maxValue = e.currentTarget.valueAsNumber;
+        dispatch(setErrorCommonAC());
+        dispatch(changeMaxValueAC(maxValue));
+    }, [dispatch])
 
-        const minValueAsString = localStorage.getItem('minValue')
-        if (minValueAsString) {
-            const newMinValueValue = JSON.parse(minValueAsString)
-            setMin(newMinValueValue);
-        }
-    }, [])
+    const setSettings = useCallback(() => {
+        dispatch(setSettingsAC())
+    }, [dispatch]);
 
-    const changeMinValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const increaseCounterValue = useCallback(() => {
+        dispatch(increaseCounterValueAC())
+    }, [dispatch]);
 
-        setError({
-            ...error,
-            errorCommon: false,
-        })
+    const decreaseCounterValue = useCallback(() => {
+        dispatch(decreaseCounterValueAC());
+    }, [dispatch]);
 
-        let minValue = e.currentTarget.valueAsNumber;
-
-        minValue < 0 || minValue >= max
-            ? setError({
-                ...error,
-                errorCommon: true,
-                errorMin: true,
-            })
-            : setError({
-                ...error,
-                errorCommon: error.errorMax && max >= 0 ? false : error.errorMax,
-                errorMin: false,
-                errorMax: error.errorMax && max >= 0 ? false : error.errorMax,
-            });
-        setMin(minValue)
-    }
-    const changeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-
-        setError({
-            ...error,
-            errorCommon: false,
-        })
-
-        let maxValue = e.currentTarget.valueAsNumber;
-
-        maxValue <= 0 || maxValue <= min
-            ? setError({
-                ...error,
-                errorCommon: true,
-                errorMax: true,
-            })
-            : setError({
-                ...error,
-                errorMin: error.errorMin && min >= 0 ? false : error.errorMin,
-                errorCommon: error.errorMin && min >= 0 ? false : error.errorMin,
-                errorMax: false,
-            })
-        setMax(maxValue)
-    }
-
-    const setSettings = () => {
-        localStorage.setItem('maxValue', JSON.stringify(max))
-        localStorage.setItem('minValue', JSON.stringify(min))
-        setValue(min)
-        setError({
-            ...error,
-            errorCommon: true,
-        })
-    }
-    const increaseCounterValue = () => {
-        setValue(value === max ? value : value + 1);
-    };
-    const decreaseCounterValue = () => {
-        setValue(value === min ? value : value - 1);
-    };
-    const resetCounterValue = () => {
-        setValue(min);
-    };
+    const resetCounterValue = useCallback(() => {
+        dispatch(resetCounterValueAC());
+    }, [dispatch]);
 
     const disabledIncreaseButton = value === max || error.errorMin || error.errorMax;
     const disabledDecreaseButton = value === min || error.errorMin || error.errorMax;
-    const displayErrorIncorrect = error.errorMin || error.errorMax
+    const displayErrorIncorrect = error.errorMin || error.errorMax;
 
     return (
         <div className={s.app}>
@@ -112,7 +60,7 @@ function App() {
                     <DisplaySettings
                         onChange={changeMaxValueHandler}
                         value={max}
-                        title='Max Value:'
+                        title='Max Value: '
                         errorDisplayMax={error.errorMax}/>
                     <DisplaySettings
                         onChange={changeMinValueHandler}
@@ -153,13 +101,3 @@ function App() {
 }
 
 export default App;
-
-/*
-1. Общие вопросы по цсс, верстке. Что улучшить и порефакторить
-
-2. Почему отрисовка происходит 2 раза при - это юзЭффект и локалсторадж?
-    console.log('value ' + value)
-    console.log('min ' + min)
-    console.log('max ' + max)
-    console.log(error)
-*/
