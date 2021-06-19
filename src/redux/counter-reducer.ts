@@ -21,7 +21,8 @@ type SetSettingsAT = ReturnType<typeof setSettingsAC>;
 type SetErrorCommonAT = ReturnType<typeof setErrorCommonAC>;
 type ChangeMaxValueAT = ReturnType<typeof changeMaxValueAC>;
 type ChangeMinValueAT = ReturnType<typeof changeMinValueAC>;
-type ActionStateType = ResetCounterValueAT
+type ActionStateType =
+    | ResetCounterValueAT
     | DecreaseCounterValueAT
     | IncreaseCounterValueAT
     | SetSettingsAT
@@ -43,28 +44,31 @@ const initialState = {
 
 // Reducer
 export const counterReducer = (state: InitialStateType = initialState, action: ActionStateType): InitialStateType => {
+
+    const {value, min, max, error} = state;
+
     switch (action.type) {
         case RESET_COUNTER_VALUE:
             return {
                 ...state,
-                value: state.min
+                value: min
             }
         case DECREASE_COUNTER_VALUE:
             return {
                 ...state,
-                value: state.value === state.min ? state.value : state.value - 1
+                value: value === min ? value : value - 1
             }
         case INCREASE_COUNTER_VALUE:
             return {
                 ...state,
-                value: state.value === state.max ? state.value : state.value + 1
+                value: value === max ? value : value + 1
             }
         case SET_SETTINGS:
             return {
                 ...state,
-                value: state.min,
+                value: min,
                 error: {
-                    ...state.error,
+                    ...error,
                     errorCommon: true
                 }
             }
@@ -72,32 +76,30 @@ export const counterReducer = (state: InitialStateType = initialState, action: A
             return {
                 ...state,
                 error: {
-                    ...state.error,
+                    ...error,
                     errorCommon: false,
                 }
             }
         case CHANGE_MAX_VALUE:
-            if (action.maxValue <= 0 || action.maxValue <= state.min) {
+            if (action.maxValue <= 0 || action.maxValue <= min) {
                 return {
                     ...state,
                     error: {
-                        ...state.error,
+                        ...error,
                         errorCommon: true,
                         errorMax: true,
                     },
                     max: action.maxValue,
                 }
             } else {
+                const errorMinMax = error.errorMin && min >= 0 ? false : error.errorMin;
+                const errorCommonMax = error.errorMin && min >= 0 ? false : error.errorMin;
                 return {
                     ...state,
                     error: {
-                        ...state.error,
-                        errorMin: state.error.errorMin && state.min >= 0
-                            ? false
-                            : state.error.errorMin,
-                        errorCommon: state.error.errorMin && state.min >= 0
-                            ? false
-                            : state.error.errorMin,
+                        ...error,
+                        errorMin: errorMinMax,
+                        errorCommon: errorCommonMax,
                         errorMax: false,
                     },
                     max: action.maxValue,
@@ -108,24 +110,22 @@ export const counterReducer = (state: InitialStateType = initialState, action: A
                 return {
                     ...state,
                     error: {
-                        ...state.error,
+                        ...error,
                         errorCommon: true,
                         errorMin: true,
                     },
                     min: action.minValue,
                 }
             } else {
+                const errorCommonMin = error.errorMax && max >= 0 ? false : error.errorMax;
+                const errorMaxMin = error.errorMax && max >= 0 ? false : error.errorMax;
                 return {
                     ...state,
                     error: {
-                        ...state.error,
+                        ...error,
                         errorMin: false,
-                        errorCommon: state.error.errorMax && state.max >= 0
-                            ? false
-                            : state.error.errorMax,
-                        errorMax: state.error.errorMax && state.max >= 0
-                            ? false
-                            : state.error.errorMax,
+                        errorCommon: errorCommonMin,
+                        errorMax: errorMaxMin,
                     },
                     min: action.minValue,
                 }

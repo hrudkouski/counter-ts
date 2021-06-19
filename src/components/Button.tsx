@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from '../App.module.css'
 
 type ButtonPropsType = {
@@ -7,17 +7,17 @@ type ButtonPropsType = {
     disabled: boolean
 }
 
-export const Button = React.memo((props: ButtonPropsType) => {
-    console.log('Button');
-    const {disabled, onClickChangeValue, title} = props;
-    const buttonClickHandler = () => onClickChangeValue();
-
-    return (
+export const Button: FC<ButtonPropsType> = React.memo(({
+                                                           title,
+                                                           disabled,
+                                                           onClickChangeValue,
+                                                       }) => (
         <button
             disabled={disabled}
-            onClick={buttonClickHandler}
+            onClick={onClickChangeValue}
             className={s.btn}>
             {title}
         </button>
-    );
-})
+    )
+)
+

@@ -14,44 +14,40 @@ import {
 } from "./redux/counter-reducer";
 
 function App() {
-    console.log('App');
+
     const value = useSelector<AppRootStateType, number>(state => state.counter.value);
     const min = useSelector<AppRootStateType, number>(state => state.counter.min);
     const max = useSelector<AppRootStateType, number>(state => state.counter.max);
     const error = useSelector<AppRootStateType, ErrorType>(state => state.counter.error);
+
     const dispatch = useDispatch();
+
+    const disabledIncreaseButton = value === max || error.errorMin || error.errorMax;
+    const disabledDecreaseButton = value === min || error.errorMin || error.errorMax;
+    const displayErrorIncorrect = error.errorMin || error.errorMax;
 
     const changeMinValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const minValue = e.currentTarget.valueAsNumber;
         dispatch(setErrorCommonAC());
         dispatch(changeMinValueAC(minValue))
     }, [dispatch])
-
     const changeMaxValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const maxValue = e.currentTarget.valueAsNumber;
         dispatch(setErrorCommonAC());
         dispatch(changeMaxValueAC(maxValue));
     }, [dispatch])
-
     const setSettings = useCallback(() => {
         dispatch(setSettingsAC())
     }, [dispatch]);
-
     const increaseCounterValue = useCallback(() => {
         dispatch(increaseCounterValueAC())
     }, [dispatch]);
-
     const decreaseCounterValue = useCallback(() => {
         dispatch(decreaseCounterValueAC());
     }, [dispatch]);
-
     const resetCounterValue = useCallback(() => {
         dispatch(resetCounterValueAC());
     }, [dispatch]);
-
-    const disabledIncreaseButton = value === max || error.errorMin || error.errorMax;
-    const disabledDecreaseButton = value === min || error.errorMin || error.errorMax;
-    const displayErrorIncorrect = error.errorMin || error.errorMax;
 
     return (
         <div className={s.app}>
