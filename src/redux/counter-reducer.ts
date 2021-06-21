@@ -13,7 +13,7 @@ export type ErrorType = {
     errorMin: boolean
     errorMax: boolean
 }
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
 type ResetCounterValueAT = ReturnType<typeof resetCounterValueAC>;
 type DecreaseCounterValueAT = ReturnType<typeof decreaseCounterValueAC>;
 type IncreaseCounterValueAT = ReturnType<typeof increaseCounterValueAC>;
