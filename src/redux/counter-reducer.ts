@@ -39,7 +39,7 @@ const initialState = {
         errorCommon: false,
         errorMin: false,
         errorMax: false,
-    }
+    } as ErrorType
 }
 
 // Reducer
@@ -106,7 +106,7 @@ export const counterReducer = (state: InitialStateType = initialState, action: A
                 }
             }
         case CHANGE_MIN_VALUE:
-            if (action.minValue < 0 || action.minValue >= state.max) {
+            if (action.minValue < 0 || action.minValue >= max) {
                 return {
                     ...state,
                     error: {
@@ -136,35 +136,15 @@ export const counterReducer = (state: InitialStateType = initialState, action: A
 }
 
 // Action Creators
-export const resetCounterValueAC = () => {
-    return {
-        type: RESET_COUNTER_VALUE,
-    } as const
-}
-export const decreaseCounterValueAC = () => {
-    return {
-        type: DECREASE_COUNTER_VALUE,
-    } as const
-}
-export const increaseCounterValueAC = () => {
-    return {
-        type: INCREASE_COUNTER_VALUE,
-    } as const
-}
-export const setSettingsAC = () => {
-    return {
-        type: SET_SETTINGS,
-    } as const
-}
-export const setErrorCommonAC = () => {
-    return {
-        type: SET_ERROR_COMMON,
-    } as const
-}
+export const resetCounterValueAC = () => ({type: RESET_COUNTER_VALUE,} as const);
+export const decreaseCounterValueAC = () => ({type: DECREASE_COUNTER_VALUE,} as const);
+export const increaseCounterValueAC = () => ({type: INCREASE_COUNTER_VALUE,} as const);
+export const setSettingsAC = () => ({type: SET_SETTINGS,} as const);
+export const setErrorCommonAC = () => ({type: SET_ERROR_COMMON,} as const);
 export const changeMaxValueAC = (maxValue: number) => {
     return {
         type: CHANGE_MAX_VALUE,
-        maxValue
+        maxValue,
     } as const
 }
 export const changeMinValueAC = (minValue: number) => {

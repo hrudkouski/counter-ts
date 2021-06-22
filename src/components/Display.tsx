@@ -18,28 +18,17 @@ export const Display: FC<DisplayPropsType> = React.memo(({
     const errorClass = value === maxValue ? `${s.errorValue}` : '';
     const errorIncorrectValue = errorIncorrect ? s.errorText : s.numberDisplay;
 
-    const renderStartDisplayCounter = () => {
-        if (!errorSet) {
-            return <span className={s.errorText}>
-                      Enter values and press 'set'
-                </span>
-        }
-
-        return <span className={`${s.numberDisplay} ${errorClass}`}>
-            {value}
-        </span>
-    }
-    const render = () => {
-        if (!errorIncorrect) {
-            return <div className={s.display}>
-                {renderStartDisplayCounter()}
+    return <>
+        {errorIncorrect
+            ? <div className={s.display}>
+                <span className={errorIncorrectValue}>Incorrect value!</span>
+            </div>
+            : <div className={s.display}>
+                {!errorSet
+                    ? <span className={s.errorText}>
+                                Enter values and press 'set'</span>
+                    : <span className={`${s.numberDisplay} ${errorClass}`}>{value}</span>}
             </div>
         }
-
-        return <div className={s.display}>
-            <span className={errorIncorrectValue}>Incorrect value!</span>
-        </div>
-    }
-
-    return render();
+    </>;
 })

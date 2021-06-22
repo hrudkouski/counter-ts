@@ -27,24 +27,27 @@ function App() {
     const displayErrorIncorrect = error.errorMin || error.errorMax;
 
     const changeMinValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        const minValue = e.currentTarget.valueAsNumber;
         dispatch(setErrorCommonAC());
-        dispatch(changeMinValueAC(minValue))
+        dispatch(changeMinValueAC(e.currentTarget.valueAsNumber))
     }, [dispatch])
+
     const changeMaxValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        const maxValue = e.currentTarget.valueAsNumber;
         dispatch(setErrorCommonAC());
-        dispatch(changeMaxValueAC(maxValue));
+        dispatch(changeMaxValueAC(e.currentTarget.valueAsNumber));
     }, [dispatch])
+
     const setSettings = useCallback(() => {
         dispatch(setSettingsAC())
     }, [dispatch]);
+
     const increaseCounterValue = useCallback(() => {
         dispatch(increaseCounterValueAC())
     }, [dispatch]);
+
     const decreaseCounterValue = useCallback(() => {
         dispatch(decreaseCounterValueAC());
     }, [dispatch]);
+
     const resetCounterValue = useCallback(() => {
         dispatch(resetCounterValueAC());
     }, [dispatch]);
@@ -71,6 +74,7 @@ function App() {
                         onClickChangeValue={setSettings}/>
                 </div>
             </div>
+
             <div className={s.wrapper}>
                 <Display
                     errorIncorrect={displayErrorIncorrect}
